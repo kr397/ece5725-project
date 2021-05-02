@@ -11,13 +11,11 @@ def speak( text ):
 def recognize(rec, mic):
     running = True
     result  = ""
-    print("Recognizing...")
-    while (running):
-        mic.record()
-        result = speech.recognize(mic.save())
+    print("[main] Recognizing...")
+    
+    mic.record()
+    result = speech.recognize(mic.save())
 
-        if result is not None:
-            running = False
     return result
 
 def main():
@@ -25,9 +23,29 @@ def main():
     rec = sr.Recognizer()
     mic = RecordAudio()
     
-    # Introduction
-    text = "Simple Choice Task. Please give a command."
-    command = recognize(rec, mic)
+    running = True
+    while running:
+        # Introduction
+        print("[main] Please speak a command")
+        command = None
+        while command is None:
+            command = recognize(rec, mic)
 
-    print("Result: " + command)
+        print("[main] Result: " + command)
+
+        # Action commands
+        # GO
+        # BACK
+        # STOP
+        # RIGHT
+        # LEFT
+        # EXIT
+
+        # Send command to FIFO
+        fifo_cmd = 'echo ' + command.upper() + ' > ../speech_cmd'
+        subprocess.check_output(fifo_cmd, shell=True)
+
+        # Stop execution if EXIT
+        if command.upper() == 'QUIT':
+            running = False
 main()

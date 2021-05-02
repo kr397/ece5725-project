@@ -6,16 +6,16 @@ FS = 44100 # Sampling rate
 
 class RecordAudio:
     def __init__(s):
-        s.chunk = 512  # Record in chunks of 1024 samples
+        s.chunk = 1024  # Record in chunks of 1024 samples
         s.channels = 1
-        s.seconds = 5
+        s.seconds = 3
         s.filename = "output.wav"
         s.frames = [] # Empty array to store frames
 
         s.p = pyaudio.PyAudio()  # Create an interface to PortAudio
 
     def record(s):
-        print('Recording')
+        print('[record] Recording')
         stream = s.p.open(format=SAMPLE_FORMAT,
                 channels=s.channels,
                 rate=FS,
@@ -31,9 +31,9 @@ class RecordAudio:
         stream.stop_stream()
         stream.close()
         # Terminate the PortAudio interface
-        s.p.terminate()
+        #s.p.terminate()
 
-        print('Finished recording')
+        print('[record] Finished recording')
 
     def save(s):
         # Save the recorded data as a WAV file
@@ -43,6 +43,9 @@ class RecordAudio:
         wf.setframerate(FS)
         wf.writeframes(b''.join(s.frames))
         wf.close()
+
+        # Clear frames after writing
+        s.frames = []
 
         return s.filename
 
