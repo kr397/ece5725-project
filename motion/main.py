@@ -1,6 +1,10 @@
 import RPi.GPIO as gpio
 import time
 from robot import Robot
+from sensor import Ultrasonic
+
+# Configure GPIO
+gpio.setmode(gpio.BCM)
 
 # Define states for voice commands
 STATE_STOP = 0
@@ -14,20 +18,24 @@ curr_state = STATE_STOP
 # Create robot object
 piDog = Robot()
 
+# Create ultrasonic sensor object
+sensor = Ultrasonic()
+DIST_THRESH = 20.0
+
 # Function to execute any of the states
 def runCommand( cmd ):
     if cmd == 'GO':
         piDog.forward()
-        return 3
+        return 2.0
     elif cmd == 'BACK':
         piDog.rotate()
-        return 2
+        return 2.0
     elif cmd == 'LEFT':
         piDog.turnLeft()
-        return 1
+        return 1.2
     elif cmd == 'RIGHT':
         piDog.turnRight()
-        return 1
+        return 1.2
     else:
         piDog.stop()
         return 0
@@ -50,8 +58,12 @@ def main():
 
         start_time = time.time()
         while ( time.time() < start_time + dur ):
-            # Can check if stop command received and break out
-            pass
+            # Can check if about to collide with object and break
+            time.sleep(0.0001)
+            curr_dist = sensor.distance()
+            if curr_dist < DIST_THRESH:
+                print("Object detected")
+                break
 
         # Stop the robot
         piDog.stop()
