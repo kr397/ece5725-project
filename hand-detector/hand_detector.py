@@ -83,11 +83,11 @@ class HandDetector:
         self.camera.release()
         cv2.destroyAllWindows()
 
-h = HandDetector()
-h.calibrateBackground()
-for i in range(0,10):
-    print("fsas")
-    time.sleep(3)
-    h.detectHand()
-    time.sleep(2)
-h.closeCamera()
+# h = HandDetector()
+# h.calibrateBackground()
+# for i in range(0,10):
+#    print("fsas")
+#    time.sleep(3)
+#    h.detectHand()
+#    time.sleep(2)
+# h.closeCamera()

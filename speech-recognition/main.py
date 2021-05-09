@@ -42,7 +42,7 @@ def main():
         # EXIT
 
         # Send command to FIFO
-        fifo_cmd = 'echo ' + command.upper() + ' > ../speech_cmd'
+        fifo_cmd = 'echo ' + command.upper() + ' > ../speechToHand.fifo'
         subprocess.check_output(fifo_cmd, shell=True)
 
         # Stop execution if EXIT

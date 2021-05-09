@@ -10,34 +10,27 @@ import pickle
 class Dataset:
     def __init__ (self, img_size):
         self.IMAGE_SIZE = img_size
-        self.images = np.zeros((1,self.IMAGE_SIZE,self.IMAGE_SIZE), dtype=np.uint8)
-        self.keys = np.zeros(1)
-
+        self.images = np.zeros((1,self.IMAGE_SIZE*self.IMAGE_SIZE), dtype=np.uint8)
+        self.keys = np.empty(1, dtype=np.str)
         self.size = 0
 
-    def add(self, img, cmd):
-        key = getKey( cmd )
-
+    def add(self, img, key):
         if self.size == 0:
-            self.images[0] = img
+            self.images[0] = np.reshape(img, (self.IMAGE_SIZE*self.IMAGE_SIZE))
             self.keys[0] = key
         else :
-            np.vstack((self.images, [img]))
-            np.append(self.keys, key)
-    
+            print("adfs")
+            img = np.reshape(img, (1, self.IMAGE_SIZE*self.IMAGE_SIZE))
+            self.images = np.vstack((self.images, img))
+            self.keys = np.append(self.keys, key)
+
+        self.size += 1
+
     def getImages(self):
         return self.images
 
     def getKeys(self):
         return self.keys
-
-def getKey( command ):
-    pairing = {'go':0, 'back':1, 'right':2, 'left':3}
-    return pairing[command]
-
-def getCommand( key ):
-    pairing = {0:'go', 1:'back', 2:'right', 3:'left'}
-    return pairing[key]
 
 def saveDataset(dataset, filename):
     data_file = open(filename, 'wb')

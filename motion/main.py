@@ -48,7 +48,7 @@ def main():
         # Check for commands (change to FIFO later)
         # cmd = input("Command?: ")
 
-        cmd_fifo = open('../speech_cmd', 'r')
+        cmd_fifo = open('../handToMotion.fifo', 'r')
         cmd = cmd_fifo.readline()[:-1]
         print("Command: " + str(cmd))
 
@@ -67,6 +67,9 @@ def main():
 
         # Stop the robot
         piDog.stop()
+
+        # Feedback to hand-detector that motion is done
+        subprocess.check_output('echo "DONE" > ../handToMotion.fifo', shell=True)
 
         # Check exit
         if cmd == 'QUIT':
