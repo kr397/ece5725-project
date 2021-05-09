@@ -12,7 +12,7 @@ class HandDetector:
         self.weight = 0.5
         self.camera = cv2.VideoCapture(0)
 
-    def background_avg(self,img):
+    def backgroundAvg(self,img):
         if self.background is None:
             self.background = img.copy().astype("float")
             return
@@ -28,13 +28,13 @@ class HandDetector:
             img_segment = max(contours, key=cv2.contourArea)
             return (img_thresh, img_segment)
 
-    def get_frame(self,img_thresh, img_segment):
+    def getFrame(self,img_thresh, img_segment):
         convex_hull = cv2.convexHull(img_segment)
         min_y = tuple(convex_hull[convex_hull[:, :, 1].argmin()][0])
         max_y = tuple(convex_hull[convex_hull[:, :, 1].argmax()][0])
         min_x   = tuple(convex_hull[convex_hull[:, :, 0].argmin()][0])
         max_x  = tuple(convex_hull[convex_hull[:, :, 0].argmax()][0])
-        hand = img_thresh[min_y[1]:max_y[1], min_x[0]:max_x[0]]
+        hand = img_thresh[min_y[1]:min_y[1]+max_x[0]-min_x[0], min_x[0]:max_x[0]]
         if(len(hand) > 50 and len(hand[0]) > 50):
             hand = cv2.resize(hand,(128,128))
             cv2.imwrite("hand_images/gesture" + str(self.counter) + ".png", hand)
@@ -44,16 +44,16 @@ class HandDetector:
         else:
             return None
 
-    def calibrate_background(self):  
-        for i in  range(self.background_frames):
-            (grabbed, frame) = self.camera.read()
+    def calibrateBackground(self):  
+        for i in range(self.background_frames):
+            _, frame = self.camera.read()
             frame = cv2.flip(frame, 1)
             img_grey = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
             img_grey = cv2.GaussianBlur(img_grey, (7, 7), 0)
-            self.background_avg(img_grey)
+            self.backgroundAvg(img_grey)
 
-    def detect_hand(self):
-        (grabbed, frame) = self.camera.read()
+    def detectHand(self):
+        _, frame = self.camera.read()
         frame = cv2.flip(frame, 1)
         img_grey = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         img_grey = cv2.GaussianBlur(img_grey, (7, 7), 0)
@@ -68,7 +68,7 @@ class HandDetector:
                 hand_segment = self.segment(img_grey)
                 continue
             (thresholded, segmented) = hand_segment
-            hand = self.get_frame(thresholded, segmented)
+            hand = self.getFrame(thresholded, segmented)
             if(hand is None):
                 (grabbed, frame) = self.camera.read()
                 frame = cv2.flip(frame, 1)
@@ -79,19 +79,15 @@ class HandDetector:
             else:
                 return hand
 
-    def close_camera(self):
+    def closeCamera(self):
         self.camera.release()
         cv2.destroyAllWindows()
 
 h = HandDetector()
-while(True):
-    k = input()
-    if (k == "1" ):
-        h.calibrate_background()
-        print("fsas")
-    elif(k == "2"):
-        h.detect_hand()
-        print("ppp")
-    elif(k == "3"):
-        break
-h.close_camera()
+h.calibrateBackground()
+for i in range(0,10):
+    print("fsas")
+    time.sleep(3)
+    h.detectHand()
+    time.sleep(2)
+h.closeCamera()
