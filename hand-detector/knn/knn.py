@@ -2,7 +2,8 @@ import os
 import numpy as np
 from sklearn.neighbors import KNeighborsClassifier
 
-import dataset as ds
+from ece5725-project.hand-detector.dataset import dataset as ds
+
 
 class KNN:
     def __init__ (self, neigh = 5, data_file = None, img_size = 128):
