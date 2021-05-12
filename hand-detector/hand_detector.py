@@ -29,13 +29,20 @@ class HandDetector:
             return (img_thresh, img_segment)
 
     def getFrame(self,img_thresh, img_segment):
+        cv2.imwrite("hand_images_full/gesture" + str(self.counter) + ".png", img_thresh)
+
         convex_hull = cv2.convexHull(img_segment)
         min_y = tuple(convex_hull[convex_hull[:, :, 1].argmin()][0])
         max_y = tuple(convex_hull[convex_hull[:, :, 1].argmax()][0])
         min_x   = tuple(convex_hull[convex_hull[:, :, 0].argmin()][0])
         max_x  = tuple(convex_hull[convex_hull[:, :, 0].argmax()][0])
         hand = img_thresh[min_y[1]:min_y[1]+max_x[0]-min_x[0], min_x[0]:max_x[0]]
-        if(len(hand) > 50 and len(hand[0]) > 50):
+
+        print("Image size: {}, {}".format(len(img_thresh), len(img_thresh[0])))
+        
+        if(len(hand) >= 50 and len(hand[0]) >= 50):
+            print("Hand size: {}, {}".format(len(hand), len(hand[0])))
+            
             hand = cv2.resize(hand,(128,128))
             cv2.imwrite("hand_images/gesture" + str(self.counter) + ".png", hand)
             np.save("hand_frames/gesturef" + str(self.counter),hand)
@@ -59,13 +66,17 @@ class HandDetector:
         img_grey = cv2.GaussianBlur(img_grey, (7, 7), 0)
         hand_segment = self.segment(img_grey)
         flag = True
+        start_time = time.time()
         while(flag):
             if(hand_segment is None):
-                (grabbed, frame) = self.camera.read()
-                frame = cv2.flip(frame, 1)
-                img_grey = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-                img_grey = cv2.GaussianBlur(img_grey, (7, 7), 0)
-                hand_segment = self.segment(img_grey)
+                if(time.time() - start_time > 3):
+                    flag = False
+                else:
+                    (grabbed, frame) = self.camera.read()
+                    frame = cv2.flip(frame, 1)
+                    img_grey = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+                    img_grey = cv2.GaussianBlur(img_grey, (7, 7), 0)
+                    hand_segment = self.segment(img_grey)
                 continue
             (thresholded, segmented) = hand_segment
             hand = self.getFrame(thresholded, segmented)
@@ -78,6 +89,7 @@ class HandDetector:
                 continue
             else:
                 return hand
+        return None
 
     def closeCamera(self):
         self.camera.release()

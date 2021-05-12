@@ -1,5 +1,7 @@
 import RPi.GPIO as gpio
 import time
+import subprocess
+
 from robot import Robot
 from sensor import Ultrasonic
 
@@ -69,7 +71,7 @@ def main():
         piDog.stop()
 
         # Feedback to hand-detector that motion is done
-        subprocess.check_output('echo "DONE" > ../handToMotion.fifo', shell=True)
+        subprocess.check_output('echo "DONE" > ../motionToHand.fifo', shell=True)
 
         # Check exit
         if cmd == 'QUIT':

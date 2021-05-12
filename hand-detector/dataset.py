@@ -1,5 +1,4 @@
 import numpy as np
-import pickle
 
 # KEY ENCODING
 # GO: 0
@@ -26,20 +25,12 @@ class Dataset:
 
         self.size += 1
 
+    def getSize(self):
+        return self.size
+
     def getImages(self):
         return self.images
 
     def getKeys(self):
         return self.keys
-
-def saveDataset(dataset, filename):
-    data_file = open(filename, 'wb')
-    pickle.dump(dataset, data_file)
-    data_file.close()
-
-def retrieveDataset(filename):
-    date_file = open(filename, 'rb')
-    dataset = pickle.load(data_file)
-    data_file.close()
-    return dataset
 

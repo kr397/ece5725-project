@@ -2,7 +2,7 @@ import os
 import numpy as np
 from sklearn.neighbors import KNeighborsClassifier
 
-from ece5725-project.hand-detector.dataset import dataset as ds
+from dataset import dataset as ds
 
 
 class KNN:
