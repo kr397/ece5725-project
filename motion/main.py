@@ -59,11 +59,11 @@ def main():
         dur = runCommand( cmd )
 
         start_time = time.time()
-        while ( time.time() < start_time + dur ):
+        while ( time.time() < start_time + dur and dur > 0):
             # Can check if about to collide with object and break
             time.sleep(0.0001)
             curr_dist = sensor.distance()
-            if curr_dist < DIST_THRESH:
+            if curr_dist < DIST_THRESH and cmd == "GO":
                 print("Object detected")
                 break
 
@@ -72,6 +72,8 @@ def main():
 
         # Feedback to hand-detector that motion is done
         subprocess.check_output('echo "DONE" > ../motionToHand.fifo', shell=True)
+        # Also send to animation 
+        subprocess.check_output('echo "DONE" > ../motionToAnimation.fifo', shell=True)
 
         # Check exit
         if cmd == 'QUIT':

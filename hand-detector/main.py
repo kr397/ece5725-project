@@ -23,6 +23,7 @@ def main():
 
         prev_img_hand = None
         prev_prediction = None
+        prev_look = False
 
         running = True
         while running:
@@ -46,10 +47,11 @@ def main():
                     detector.calibrateBackground()
                     print("Calibration Done")
             # Reinforcement for previous detection
-            elif (audio_cmd == "GOOD" and prev_img_hand is not None):
+            elif (audio_cmd == "GOOD" and prev_img_hand is not None and prev_look):
                 print("Reinforcement received")
                 model.enforce(prev_img_hand,prev_prediction)
                 model.train()
+                prev_look = False
             # Command to recognize gesture and follow
             elif (audio_cmd == "LOOK"):
                 # Detect hand and predict command
@@ -69,8 +71,14 @@ def main():
                         # Save images for reinforcement
                         prev_img_hand = img_hand
                         prev_prediction = prediction 
+                        prev_look = True
                     else:
                         print("Hand Not Found")
+                        # Send command to indicate hand not found
+                        subprocess.check_output('echo "NONE" > ../handToMotion.fifo', shell=True)
+                        # Wait for ack from motion
+                        motion_fifo = open('../motionToHand.fifo', 'r')
+                        motion_cmd = motion_fifo.readline()[:-1]
                         continue
             # Quit the program   
             elif (audio_cmd == "QUIT") :

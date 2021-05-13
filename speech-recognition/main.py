@@ -18,9 +18,15 @@ def recognize(rec, mic):
     print("[main] Recognizing...")
     
     gpio.output(LED_PIN, 1)
+    subprocess.check_output('echo "1" > ../speechToAnimation.fifo', shell=True)
+
     mic.record()
+
     gpio.output(LED_PIN, 0)
+    subprocess.check_output('echo "2" > ../speechToAnimation.fifo', shell=True)
+
     result = speech.recognize(mic.save())
+    time.sleep(2)
 
     return result
 
@@ -55,6 +61,10 @@ def main():
         if command.upper() in COMMANDS: 
             # Send command to FIFO
             fifo_cmd = 'echo ' + command.upper() + ' > ../speechToHand.fifo'
+            subprocess.check_output(fifo_cmd, shell=True)
+
+            # Send to animation FIFO
+            fifo_cmd = 'echo ' + command.upper() + ' > ../speechToAnimation.fifo'
             subprocess.check_output(fifo_cmd, shell=True)
 
         # Stop execution if EXIT
