@@ -1,0 +1,92 @@
+Starting Calibration
+Calibration Done
+Command: GO
+Image 0 size: 480, 640
+Hand size: 385, 385
+['GO']
+Calibration Done
+Command: RIGHT
+Image 1 size: 480, 640
+Hand size: 276, 276
+['GO' 'RIGHT']
+Calibration Done
+Command: BACK
+Image 2 size: 480, 640
+Hand size: 236, 271
+['GO' 'RIGHT' 'BACK']
+Calibration Done
+Command: LEFT
+Image 3 size: 480, 640
+Hand size: 233, 233
+['GO' 'RIGHT' 'BACK' 'LEFT']
+Calibration Done
+Command: GO
+Image 4 size: 480, 640
+Hand size: 280, 280
+['GO' 'RIGHT' 'BACK' 'LEFT' 'GO']
+Calibration Done
+Command: DRAKE
+Looking
+Image 5 size: 480, 640
+Hand size: 233, 233
+5
+5
+No Prediction
+New command not mapped
+Command: JAY
+Looking
+Image 6 size: 480, 640
+Hand size: 238, 238
+5
+5
+No Prediction
+New command not mapped
+Command: LEFT
+Image 7 size: 480, 640
+Hand size: 226, 226
+['GO' 'RIGHT' 'BACK' 'LEFT' 'GO' 'LEFT']
+Calibration Done
+Command: LOOK
+Image 8 size: 480, 640
+Hand size: 276, 276
+5
+6
+Prediction: GO
+Calibration Done
+Command: LEFT
+Image 9 size: 480, 640
+Hand size: 218, 218
+['GO' 'RIGHT' 'BACK' 'LEFT' 'GO' 'LEFT' 'LEFT']
+Calibration Done
+Command: HELLO
+Looking
+Image 10 size: 480, 640
+Hand size: 275, 275
+5
+7
+Prediction added: GO
+Change Gesture
+Image 11 size: 480, 640
+Hand size: 291, 291
+5
+7
+Prediction added: LEFT
+Change Gesture
+Image 12 size: 480, 640
+Hand size: 299, 299
+5
+7
+Prediction added: GO
+Change Gesture
+Image 13 size: 480, 640
+Image 13 size: 480, 640
+Image 13 size: 480, 640
+Image 13 size: 480, 640
+Image 13 size: 480, 640
+Image 13 size: 480, 640
+Image 13 size: 480, 640
+Image 13 size: 480, 640
+New command performed
+Command: QUIT
+Model saved
+Exit

@@ -11,7 +11,7 @@ from dataset import Dataset
 
 import cv2
 
-#MODELS = {"knn","logreg","nb"}
+#MODELS = {"knn","logreg","nb","dectrees"}
 
 class Model:
     def __init__ (self,model="knn",filename = None, img_size = 128):
@@ -21,7 +21,7 @@ class Model:
         # Initialize model
         if(model == "logreg"):
             # Logistical Regression
-            self.model = LogisticRegression(random_state=0,multi_class='multinomial')
+            self.model = LogisticRegression(random_state=0,multi_class='multinomial',solver='newton-cg')
             self.model_type = 1
         elif(model == "nb"):
             # Naive Bayes
@@ -46,18 +46,6 @@ class Model:
             data_file.close()
             # Fit the older model
             self.model.fit( self.dataset.getImages(), self.dataset.getKeys() )
-
-
-    def check_dataset (self):
-        if(self.model_type == 0):
-            neigh = self.model.get_params()['n_neighbors']
-            print( neigh )
-            
-            size = self.dataset.getSize()
-            print( size )
-            return neigh < size
-        else:
-            return True
             
     def add (self, img, cmd):
         self.dataset.add(img, cmd)
@@ -75,11 +63,12 @@ class Model:
             self.dataset.add(img, cmd)
 
     def predict (self, img):
-        if(self.check_dataset()):
+        try:
             img = np.reshape(img, (self.IMAGE_SIZE*self.IMAGE_SIZE))
             key = self.model.predict([img])
             return key[0]
-        else:
+        except:
+            # Dataset is not big enough to predict
             return ""
 
     def save(self, filename):

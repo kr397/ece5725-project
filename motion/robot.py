@@ -12,7 +12,8 @@ RT_IN1 = 6
 RT_IN2 = 5
 
 # Define duty cycle
-DUTY_CYCLE = 50.0
+DUTY_CYCLE_RT = 55.0
+DUTY_CYCLE_LT = 60.0
 
 class Robot:
     def __init__( self ):
@@ -21,8 +22,8 @@ class Robot:
         self.motor_lt = motor.Motor( LT_PWM, LT_IN1, LT_IN2)
 
         # Start the PWM signals
-        self.motor_rt.startPWM(DUTY_CYCLE)
-        self.motor_lt.startPWM(DUTY_CYCLE)
+        self.motor_rt.startPWM(DUTY_CYCLE_RT)
+        self.motor_lt.startPWM(DUTY_CYCLE_LT)
 
     def forward( self ):
         # Move forward 

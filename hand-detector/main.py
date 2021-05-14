@@ -97,15 +97,15 @@ def main():
                         prev_prediction = prediction 
                         prev_look = True
                     else:
-                        print("Hand Not Found")
-                        # Send command to indicate hand not found
-                        subprocess.check_output('echo "NONE" > ../handToMotion.fifo', shell=True)
-                        subprocess.check_output('echo "NONE" >> ../handToMotion.log', shell=True)
+                        print("No prediction")
+                        # # Send command to indicate hand not found
+                        # subprocess.check_output('echo "NONE" > ../handToMotion.fifo', shell=True)
+                        # subprocess.check_output('echo "NONE" >> ../handToMotion.log', shell=True)
                         # Wait for ack from motion
-                        motion_fifo = open('../motionToHand.fifo', 'r')
-                        motion_cmd = motion_fifo.readline()[:-1]
-                        continue
-
+                        # motion_fifo = open('../motionToHand.fifo', 'r')
+                        # motion_cmd = motion_fifo.readline()[:-1]
+                else:
+                    print("Hand not found") 
                 # Send complete acknowledgement to speech-recognition
                 subprocess.check_output('echo "DONE" > ../handToSpeech.fifo', shell=True)
                 subprocess.check_output('echo "DONE" >> ../handToSpeech.log', shell=True)
@@ -119,10 +119,6 @@ def main():
                 # Send complete acknowledgement to speech-recognition
                 subprocess.check_output('echo "DONE" > ../handToSpeech.fifo', shell=True)
                 subprocess.check_output('echo "DONE" >> ../handToSpeech.log', shell=True)
-                # Save model
-                model.save('knn_dataset.dat')
-                print("Model saved")
-                break
             
             else:
                 print("Looking")
@@ -142,6 +138,10 @@ def main():
                     if(not prediction == ""):
                         print("Prediction added: " + str(prediction))
                         motions.append(prediction)
+                        # Break if 5 gestures detected
+                        if (len(motions) >= 5):
+                            print("Max limit")
+                            break
                     else:
                         print("No Prediction")
                         break
@@ -185,6 +185,9 @@ def main():
 
     except KeyboardInterrupt:
         pass
+    # Save model
+    model.save('knn_dataset.dat')
+    print("Model saved")
     detector.closeCamera()
     print("Exit")
 

@@ -34,10 +34,10 @@ def runCommand( cmd ):
         return 2.0
     elif cmd == 'LEFT':
         piDog.turnLeft()
-        return 1.2
+        return 1.5
     elif cmd == 'RIGHT':
         piDog.turnRight()
-        return 1.2
+        return 1.5
     else:
         piDog.stop()
         return 0

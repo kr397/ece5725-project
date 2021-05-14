@@ -114,8 +114,6 @@ while(flag):
     subprocess.call("aplay audio/dog_bark.wav", shell=True)
 
     # Wait for motion to finish   
-    # motor_fifo = open('../motionToAnimation.fifo', 'r')
-    # motor_cmd = motor_fifo.readline()[:-1] 
     speech_fifo = open('../speechToAnimation.fifo', 'r')
     speech_cmd = speech_fifo.readline()[:-1] 
     

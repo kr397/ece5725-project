@@ -15,9 +15,9 @@ def main():
     # Get current directory
     filename = raw_input("Enter dataset file: ")
     if filename is '':
-        model = md.Model()
+        model = md.Model(model = "nb")
     else:
-        model = md.Model(filename = filename)
+        model = md.Model(model = "nb", filename = filename)
     
     time.sleep(1)
     print("Starting Calibration")
