@@ -16,9 +16,9 @@ class Dataset:
     def add(self, img, key):
         if self.size == 0:
             self.images[0] = np.reshape(img, (self.IMAGE_SIZE*self.IMAGE_SIZE))
-            self.keys[0] = key
+            self.keys = np.append(self.keys, key)
+            self.keys = self.keys[1:]
         else :
-            print("adfs")
             img = np.reshape(img, (1, self.IMAGE_SIZE*self.IMAGE_SIZE))
             self.images = np.vstack((self.images, img))
             self.keys = np.append(self.keys, key)

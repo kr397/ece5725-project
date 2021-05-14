@@ -10,6 +10,15 @@ EYE_ANIMATION = ["dog_images/dog_normal.png","dog_images/dog_look_1.png","dog_im
 os.putenv('SDL_VIDEODRIVER', 'fbcon')
 os.putenv('SDL_FBDEV', '/dev/fb0')
 
+# Displays the image on the PiTFT screen
+def display(img):
+    global screen
+    dog = pygame.image.load(img)
+    dogrect = dog.get_rect()
+    screen.fill(background)
+    screen.blit(dog, dogrect)
+    pygame.display.flip()
+
 # Initialize PyGame
 pygame.init()
 pygame.mouse.set_visible(False)
@@ -18,11 +27,7 @@ background = (97,220,248)
 screen = pygame.display.set_mode(size)
 
 # Displaying Initial Frame
-dog = pygame.image.load("dog_images/dog_normal.png")
-dogrect = dog.get_rect()
-screen.fill(background)
-screen.blit(dog, dogrect)
-pygame.display.flip()
+display("dog_images/dog_normal.png")
 
 
 flag = True
@@ -33,90 +38,98 @@ while(flag):
             flag = False
             sys.exit()
 
+    # Read audio command
     speech_fifo = open('../speechToAnimation.fifo', 'r')
     audio_cmd = speech_fifo.readline()[:-1]
     #audio_cmd = input("Please Enter User Input: ")
 
+    # Case: started recording audio
     if(audio_cmd == "1"):
         # Ear Up
         print("Ear up")
         for frame in EAR_ANIMATION:
-            dog = pygame.image.load(frame)
-            dogrect = dog.get_rect()
-            screen.fill(background)
-            screen.blit(dog, dogrect)
-            pygame.display.flip()
+            display(frame)
             time.sleep(0.05)
         continue
 
+    # Case: finished recording audio
     elif(audio_cmd == "2"):
         # Ear Down
         print("Ear down")
         for frame in EAR_ANIMATION[::-1]:
-                dog = pygame.image.load(frame)
-                dogrect = dog.get_rect()
-                screen.fill(background)
-                screen.blit(dog, dogrect)
-                pygame.display.flip()
+                display(frame)
                 time.sleep(0.05)
         continue
 
+    # Case: left audio command
     elif(audio_cmd == "LEFT"):
         print("Look left")
-        dog = pygame.image.load("dog_images/dog_right.png")
+        display("dog_images/dog_right.png")
+        
 
+    # Case: right audio command
     elif(audio_cmd == "RIGHT"):
         print("Look right")
-        dog = pygame.image.load("dog_images/dog_left.png")
+        display("dog_images/dog_left.png")
 
+    # Case: look audio command
     elif(audio_cmd == "LOOK"):
         # Widen Eyes
         print("Widen eyes")
         for frame in EYE_ANIMATION:
-            dog = pygame.image.load(frame)
-            dogrect = dog.get_rect()
-            screen.fill(background)
-            screen.blit(dog, dogrect)
-            pygame.display.flip()
+            display(frame)
             time.sleep(0.08)
+
+    # Case: unrecognized audio command
+    elif(audio_cmd == "NEW"):
+        look = True
+        while(True):
+            speech_fifo = open('../handToAnimation.fifo', 'r')
+            hand_cmd = speech_fifo.readline()[:-1]
+            if(hand_cmd == "CHANGE"):
+                if(look):
+                    display("dog_images/dog_look_2.png")
+                else:
+                    display("dog_images/dog_normal.png")
+                look = not look
+            else:
+                break
+
+        display("dog_images/dog_normal.png")
+
+    # Case: quit audio command
     elif (audio_cmd == "QUIT"):
         flag = False
         continue
+
+    # Case: renforcement
     elif (audio_cmd == "GOOD"):
         continue
-    else:
-        dog = pygame.image.load("dog_images/dog_normal.png")
 
-    # Display Motion Frame
-    dogrect = dog.get_rect()
-    screen.fill(background)
-    screen.blit(dog, dogrect)
-    pygame.display.flip()
+    # Case: other recognized audio commands
+    else:
+        display("dog_images/dog_normal.png")
 
     # Bark 
-    subprocess.check_output("aplay audio/dog_bark.wav", shell=True)
+    subprocess.call("aplay audio/dog_bark.wav", shell=True)
 
-    # Wait For Motion To Finish   
-    motor_fifo = open('../motionToAnimation.fifo', 'r')
-    motor_cmd = motor_fifo.readline()[:-1] 
+    # Wait for motion to finish   
+    # motor_fifo = open('../motionToAnimation.fifo', 'r')
+    # motor_cmd = motor_fifo.readline()[:-1] 
+    speech_fifo = open('../speechToAnimation.fifo', 'r')
+    speech_cmd = speech_fifo.readline()[:-1] 
+    
     #motor_cmd = input("Please Enter User Input: ")
     
+    # Animation for look
     if(audio_cmd == "LOOK"):
         # Unwiden Eyes
         print("Unwiden eyes")
         for frame in EYE_ANIMATION[::-1]:
-            dog = pygame.image.load(frame)
-            dogrect = dog.get_rect()
-            screen.fill(background)
-            screen.blit(dog, dogrect)
-            pygame.display.flip()
+            display(frame)
             time.sleep(0.08)
 
     # Normal Face after Motion has been completed
-    dog = pygame.image.load("dog_images/dog_normal.png")
-    dogrect = dog.get_rect()
-    screen.fill(background)
-    screen.blit(dog, dogrect)
-    pygame.display.flip()
+    display("dog_images/dog_normal.png")
     
 

@@ -9,20 +9,14 @@ from sklearn.tree import DecisionTreeClassifier
 
 from dataset import Dataset
 
+import cv2
+
 #MODELS = {"knn","logreg","nb"}
 
 class Model:
     def __init__ (self,model="knn",filename = None, img_size = 128):
        
         self.IMAGE_SIZE = img_size
-        if filename is None:
-            # Don't retrieve dataset, create new
-            self.dataset = Dataset(img_size)
-        else:
-            # Retrieve dataset
-            data_file = open(filename, 'rb')
-            self.dataset = pickle.load(data_file)
-            data_file.close()
 
         # Initialize model
         if(model == "logreg"):
@@ -42,6 +36,18 @@ class Model:
             self.model = KNeighborsClassifier(n_neighbors = 5, weights = 'distance')
             self.model_type = 0
 
+        if filename is None:
+            # Don't retrieve dataset, create new
+            self.dataset = Dataset(img_size)
+        else:
+            # Retrieve dataset
+            data_file = open(filename, 'rb')
+            self.dataset = pickle.load(data_file)
+            data_file.close()
+            # Fit the older model
+            self.model.fit( self.dataset.getImages(), self.dataset.getKeys() )
+
+
     def check_dataset (self):
         if(self.model_type == 0):
             neigh = self.model.get_params()['n_neighbors']
@@ -55,11 +61,13 @@ class Model:
             
     def add (self, img, cmd):
         self.dataset.add(img, cmd)
-        print(self.dataset.getImages().shape)
-        print(self.dataset.getKeys().shape)
+        # print(self.dataset.getImages())
+        # print(cmd)
+        print(self.dataset.getKeys())
 
     def train (self):
         self.model.fit( self.dataset.getImages(), self.dataset.getKeys() )
+        # cv2.imwrite("hand_images/hand.png", hand)
 
     def enforce (self, img, cmd):
         # Add image 10 times
@@ -70,7 +78,7 @@ class Model:
         if(self.check_dataset()):
             img = np.reshape(img, (self.IMAGE_SIZE*self.IMAGE_SIZE))
             key = self.model.predict([img])
-            return key
+            return key[0]
         else:
             return ""
 

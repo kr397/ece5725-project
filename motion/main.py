@@ -70,10 +70,13 @@ def main():
         # Stop the robot
         piDog.stop()
 
-        # Feedback to hand-detector that motion is done
-        subprocess.check_output('echo "DONE" > ../motionToHand.fifo', shell=True)
+        print("Command done")
+
         # Also send to animation 
-        subprocess.check_output('echo "DONE" > ../motionToAnimation.fifo', shell=True)
+        # subprocess.check_output('echo "DONE" > ../motionToAnimation.fifo', shell=True)
+        # Feedback to hand-detector that motion is done
+        subprocess.check_output('echo "DONE" >> ../motionToHand.fifo', shell=True)
+        
 
         # Check exit
         if cmd == 'QUIT':

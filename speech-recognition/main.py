@@ -6,11 +6,22 @@ import RPi.GPIO as gpio
 from record import RecordAudio
 import speech
 
+# LED Indicator pin
 LED_PIN = 13
 
-def speak( text ):
-    espeak_cmd = 'espeak -a 200 -v mb-en1 -s 150 "' + text + '" --stdout | aplay'
-    subprocess.check_output(espeak_cmd, shell=True)
+# Dictionary to store commands with their variations 
+COMMANDS = {
+    'GO': ['GO', 'GHOUL', 'GOOGLE', 'COOL'],
+    'BACK': ['BACK', 'MATT', 'MAC'],
+    'RIGHT': ['RIGHT', 'GOODNIGHT', 'DID I', 'TODAY', 'NIGHT', 'LIGHT'],
+    'LEFT': ['LEFT', 'LAST', 'YES'],
+    'GOOD': ['GOOD'],
+    'LOOK': ['LOOK', 'YOLK'],
+    'QUIT': ['QUIT', 'QUICK']
+}
+
+# List of no commands 
+NO_COMMANDS = ['NONE', 'DONE']
 
 def recognize(rec, mic):
     running = True
@@ -29,6 +40,13 @@ def recognize(rec, mic):
     time.sleep(2)
 
     return result
+
+def check(cmd):
+    for key, val in COMMANDS.items():
+        if cmd in val:
+            return key
+    
+    return None
 
 def main():
     # Initialize speech recognition
@@ -49,25 +67,45 @@ def main():
 
         print("[main] Result: " + command)
 
-        # Action commands
-        # GO
-        # BACK
-        # STOP
-        # RIGHT
-        # LEFT
-        # EXIT
-        COMMANDS = ['GO', 'BACK', 'RIGHT', 'LEFT', 'QUIT', 'LOOK', 'GOOD']
+        command = command.upper()
+        check_cmd = check(command.upper())
 
-        if command.upper() in COMMANDS: 
-            # Send command to FIFO
-            fifo_cmd = 'echo ' + command.upper() + ' > ../speechToHand.fifo'
+        # If in invalid commands, continue
+        if command in NO_COMMANDS:
+            continue
+        
+        # Send command to Animation
+        if not check_cmd is None:
+            print("[main] Command found: " + check_cmd)
+            command = check_cmd 
+            # Existing command mode
+            fifo_cmd = 'echo ' + command + ' > ../speechToAnimation.fifo'
             subprocess.check_output(fifo_cmd, shell=True)
+            fifo_cmd = 'echo ' + command + ' >> ../speechToAnimation.log'
+            subprocess.check_output(fifo_cmd, shell=True)
+        else :
+            # New command mode
+            subprocess.check_output('echo "NEW" > ../speechToAnimation.fifo', shell=True)
+            subprocess.check_output('echo "NEW" >> ../speechToAnimation.log', shell=True)
 
-            # Send to animation FIFO
-            fifo_cmd = 'echo ' + command.upper() + ' > ../speechToAnimation.fifo'
-            subprocess.check_output(fifo_cmd, shell=True)
+        # Send command to FIFO
+        fifo_cmd = 'echo ' + command + ' > ../speechToHand.fifo'
+        subprocess.check_output(fifo_cmd, shell=True)
+        fifo_cmd = 'echo ' + command + ' >> ../speechToHand.log'
+        subprocess.check_output(fifo_cmd, shell=True)
+
+        # Wait for acknowledgement from hand-detector that new command added
+        hand_fifo = open('../handToSpeech.fifo', 'r')
+        hand_cmd = hand_fifo.readline()[:-1]
+        if not hand_cmd is "DONE" and not hand_cmd is "NONE":
+            COMMANDS[hand_cmd] = [hand_cmd]
+
+        # Send acknowledgment to animation 
+        subprocess.check_output('echo "DONE" >> ../speechToAnimation.log', shell=True)
+        subprocess.check_output('echo "DONE" > ../speechToAnimation.fifo', shell=True)
 
         # Stop execution if EXIT
-        if command.upper() == 'QUIT':
+        if command == 'QUIT':
             running = False
+
 main()
