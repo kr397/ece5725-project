@@ -2,6 +2,7 @@ import subprocess
 import time
 import speech_recognition as sr
 import RPi.GPIO as gpio
+from pythonping import ping
 
 from record import RecordAudio
 import speech
@@ -49,6 +50,23 @@ def check(cmd):
     return None
 
 def main():
+    # # Before starting recognition, sleep till device found
+    # ping_response = ping('192.168.1.68')
+    # flag = True
+    # while (flag):
+    #     for resp in ping_response:
+    #         flag = resp.success
+    #     ping_response = ping('192.168.1.68')
+    # 
+    # # Bark to indicate user found 
+    # subprocess.check_output('echo "YAY" > ../speechToAnimation.fifo', shell=True)
+    # subprocess.check_output('echo "YAY" >> ../speechToAnimation.log', shell=True)
+    subprocess.call('sudo python3 ping.py', shell=True)
+    #ping_fifo = open('pingToSpeech.fifo', 'r')
+    # Bark to indicate user found 
+    subprocess.check_output('echo "YAY" > ../speechToAnimation.fifo', shell=True)
+    subprocess.check_output('echo "YAY" >> ../speechToAnimation.log', shell=True)
+
     # Initialize speech recognition
     rec = sr.Recognizer()
     mic = RecordAudio()

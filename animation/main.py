@@ -102,8 +102,13 @@ while(flag):
         flag = False
         continue
 
-    # Case: renforcement
+    # Case: reinforcement
     elif (audio_cmd == "GOOD"):
+        continue
+
+    # Case: Wake up from sleep
+    elif (audio_cmd == "YAY"):
+        subprocess.call("aplay audio/dog_bark.wav", shell=True)
         continue
 
     # Case: other recognized audio commands
