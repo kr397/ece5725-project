@@ -1,10 +1,38 @@
+""" 
+ECE 5725 Spring 2021
+Final Project
+
+PiDog
+Aryaa Pai (avp34) and Krithik Ranjan (kr397)
+
+Recorder for the Speech Recognition module.
+Contains the RecordAudio class used to record and save audio 
+snippets for speech recognition.
+""" 
+
+# Import global libraries
 import pyaudio
 import wave
 
+# Define constants
 SAMPLE_FORMAT = pyaudio.paInt16 # 16 bits per sample
 FS = 44100 # Sampling rate
 
+""" 
+RecordAudio
+Class to encapsulate an audio recording instance.
+
+chunk: Number of samples in a chunk
+channels: Number of channels
+seconds: Duration of sound recording
+filename: Output file
+frames: Array to store frames
+p: PyAudio instance
+"""
 class RecordAudio:
+    """ 
+    Constructor 
+    """
     def __init__(s):
         s.chunk = 1024  # Record in chunks of 1024 samples
         s.channels = 1
@@ -14,8 +42,13 @@ class RecordAudio:
 
         s.p = pyaudio.PyAudio()  # Create an interface to PortAudio
 
+    """ 
+    record()
+    Function to record s.seconds long audio and save samples in s.frames
+    """
     def record(s):
         print('[record] Recording')
+        # Initialize the stream object from PyAudio
         stream = s.p.open(format=SAMPLE_FORMAT,
                 channels=s.channels,
                 rate=FS,
@@ -30,11 +63,15 @@ class RecordAudio:
         # Stop and close the stream
         stream.stop_stream()
         stream.close()
-        # Terminate the PortAudio interface
-        #s.p.terminate()
 
         print('[record] Finished recording')
 
+    """ 
+    save()
+    Function to save the collected samples to s.filename
+
+    Returns: Name of the file where samples stored
+    """
     def save(s):
         # Save the recorded data as a WAV file
         wf = wave.open(s.filename, 'wb')

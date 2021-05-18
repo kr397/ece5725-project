@@ -1,3 +1,15 @@
+""" 
+ECE 5725 Spring 2021
+Final Project
+
+PiDog
+Aryaa Pai (avp34) and Krithik Ranjan (kr397)
+
+Test script for the Speech Recognition module.
+Runs independently to continuously record audio snippets and
+recognize voice commands without FIFO communication. 
+""" 
+
 import subprocess
 import time
 import speech_recognition as sr
