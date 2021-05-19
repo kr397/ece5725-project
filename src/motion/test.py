@@ -1,3 +1,15 @@
+""" 
+ECE 5725 Spring 2021
+Final Project
+
+PiDog
+Aryaa Pai (avp34) and Krithik Ranjan (kr397)
+
+Test script for the motion module.
+Runs independently to move the robot based on command recieved
+from the terminal. 
+""" 
+
 import RPi.GPIO as gpio
 import time
 import subprocess

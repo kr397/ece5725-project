@@ -20,4 +20,4 @@ while (flag):
     ping_response = ping('192.168.1.68')
 
 # Successful ping
-print("User's home!")
+print("User's home!") 

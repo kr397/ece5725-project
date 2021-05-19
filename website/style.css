@@ -40,7 +40,8 @@ p {
     font-size: 1.1em;
     font-weight: 300;
     line-height: 1.7em;
-    color: #999;
+    color: rgb(125, 125, 125);
+    text-align: left;
 }
 
 a, a:hover, a:focus {
@@ -48,6 +49,12 @@ a, a:hover, a:focus {
     text-decoration: none;
     transition: all 0.3s;
 }
+
+code {
+  background: #f6fdff;
+  color:#15c2e9;
+}
+
 
 #sidebar {
     /* don't forget to add all the previously mentioned styles here too */
