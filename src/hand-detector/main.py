@@ -1,12 +1,28 @@
+""" 
+ECE 5725 Spring 2021
+Final Project
+
+PiDog
+Aryaa Pai (avp34) and Krithik Ranjan (kr397)
+
+Main script for the Hand Detector module.
+Runs continuously to detect hand gestures from the camera feed
+and characterizes them to commands.
+""" 
+
+# Import global libraries
 import time
 import sys 
 import subprocess
 
+# Import local modules
 import model as md
 from hand_detector import HandDetector
 
 def main():
-
+    # Set of commands that the module recognizes paired with actions
+    # COMMAND : (Basic?, List of actions)
+    # Dictionary updated as new commands added
     commands = {
         "GO" : (True, ["GO"]),
         "BACK" : (True, ["BACK"]),
@@ -14,8 +30,10 @@ def main():
         "RIGHT" : (True, ["RIGHT"])
     }
 
+    # Initialize the HandDetector object
     detector = HandDetector()
 
+    # Check command line arguments to pre-load a dataset or create new
     if len(sys.argv) == 1:
         model = md.Model()
     else:
@@ -23,31 +41,35 @@ def main():
         model = md.Model(filename = filename)
 
     try :
+        # Calibrate with current background
         print("Starting Calibration")
         detector.calibrateBackground()
         print("Calibration Done")
 
+        # Initialize status variables
         prev_img_hand = None
         prev_prediction = None
         prev_look = False
 
         running = True
         while running:
+            # Wait for command from speech recognition module
             speech_fifo = open('../speechToHand.fifo', 'r')
             audio_cmd = speech_fifo.readline()[:-1]
             print("Command: " + str(audio_cmd))
             
-            # Basic audio command found
+            # Check if known audio command 
             if(audio_cmd in commands):
                 is_basic , motions = commands[audio_cmd]
 
                 if(is_basic):
-                    # Detect hand, add it to the model and train it
+                    # For basic command, detect hand, add it to the model and train it
                     img_hand = detector.detectHand()
                     if(not img_hand is None):
                         model.add(img_hand,audio_cmd)
                         model.train()
 
+                # Perform the motion sequence associated with command
                 for motion_cmd in motions:
                     # Send command to perform motion 
                     subprocess.check_output('echo ' + motion_cmd + ' > ../handToMotion.fifo', shell=True)
@@ -82,6 +104,7 @@ def main():
                 # Detect hand and predict command
                 img_hand = detector.detectHand()
                 if(not img_hand is None):
+                    # Predict the command for the hand detected
                     prediction = model.predict(img_hand)
                     if(not prediction == ""):
                         print("Prediction: " + str(prediction))
@@ -99,15 +122,11 @@ def main():
                         prev_prediction = prediction 
                         prev_look = True
                     else:
+                        # No prediction 
                         print("No prediction")
                         prev_look = False
-                        # # Send command to indicate hand not found
-                        # subprocess.check_output('echo "NONE" > ../handToMotion.fifo', shell=True)
-                        # subprocess.check_output('echo "NONE" >> ../handToMotion.log', shell=True)
-                        # Wait for ack from motion
-                        # motion_fifo = open('../motionToHand.fifo', 'r')
-                        # motion_cmd = motion_fifo.readline()[:-1]
                 else:
+                    # No detection
                     print("Hand not found") 
                     prev_look = False
                 # Send complete acknowledgement to speech-recognition
@@ -124,20 +143,25 @@ def main():
                 subprocess.check_output('echo "DONE" > ../handToSpeech.fifo', shell=True)
                 subprocess.check_output('echo "DONE" >> ../handToSpeech.log', shell=True)
             
+            # New voice command detected
             else:
                 print("Looking")
-                # Loop for more gestures 
+                # Loop for detecting sequence of gestures
                 flag = True
                 motions = []
                 while(flag):
                     # Indicate to animation that hand being detected 
                     subprocess.check_output('echo "CHANGE" > ../handToAnimation.fifo', shell=True)
                     subprocess.check_output('echo "CHANGE" >> ../handToAnimation.log', shell=True)
+                    # Wait to ensure that hand gesture changed
                     time.sleep(0.5)
+                    # Detect gesture
                     img_hand = detector.detectHand()
                     if(img_hand is None):
+                        # Stop if no hand found
                         flag = False 
                         break
+                    # Predict the command for gesture detected and add
                     prediction = model.predict(img_hand)
                     if(not prediction == ""):
                         print("Prediction added: " + str(prediction))
@@ -147,19 +171,22 @@ def main():
                             print("Max limit")
                             break
                     else:
+                        # No prediction 
                         print("No Prediction")
                         break
+                    # Buffer before next gesture detected
                     time.sleep(0.5)
                     print("Change Gesture")
                     # Indicate to animation that hand not being detected 
                     subprocess.check_output('echo "CHANGE" > ../handToAnimation.fifo', shell=True)
                     subprocess.check_output('echo "CHANGE" >> ../handToAnimation.log', shell=True)
-
+                    # Buffer time for change in hand gesture
                     time.sleep(2)
                 # Indicate to animation that looking for gestures over
                 subprocess.check_output('echo "DONE" > ../handToAnimation.fifo', shell=True)       
                 subprocess.check_output('echo "DONE" >> ../handToAnimation.log', shell=True)          
                 
+                # Perform the detected motion sequence
                 if(len(motions) > 0):
                     commands[audio_cmd] = (False,motions)
                     print("New command performed")
@@ -173,20 +200,14 @@ def main():
                     # Calibrate background once motion complete
                     detector.calibrateBackground()
                     print("Calibration Done")
-                    
+
                     # Send acknowledgement to speech-recognition that new command has been added 
                     subprocess.check_output('echo ' + audio_cmd + ' > ../handToSpeech.fifo', shell=True)
                     subprocess.check_output('echo ' + audio_cmd + ' >> ../handToSpeech.log', shell=True)
                 else:
                     # Nack to speech-recognition to not add new command
                     print("New command not mapped")
-                    # Send dummy command to motion
-                    # subprocess.check_output('echo "NONE" > ../handToMotion.fifo', shell=True)
-                    # subprocess.check_output('echo "NONE" > ../handToMotion.log', shell=True)
-                    # # Wait for acknowledgement from motion
-                    # motion_fifo = open('../motionToHand.fifo', 'r')
-                    # motion_cmd = motion_fifo.readline()[:-1]
-                    
+                    # Send nack to speech recognition                    
                     subprocess.check_output('echo "NONE" > ../handToSpeech.fifo', shell=True)
                     subprocess.check_output('echo "NONE" >> ../handToSpeech.log', shell=True)
                 

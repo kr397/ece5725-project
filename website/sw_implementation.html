@@ -154,6 +154,11 @@
             <h3>Communication</h3>
             <p>As it was mentioned earlier, the four of these modules build the robot together by interconnecting and constantly communicating with each other. In our system, this communication takes place with the help of FIFOs or named pipes. Before running all the modules, we created these predetermined FIFOs as fixed one-way communication channels from one module to the other. These were all placed in the top directory of the source code, with the name format as <code>module1ToModule2.fifo</code> (e.g. <code>speechToHand.fifo</code>) which helped avoid any confusion and bugs during implementation. While all the modules of the system have been implemented as individual components, they are dependent on each other for their functionality. For example, it is only after the speech recognition module detects and recognizes a command, that it forward the command to change animation on the PiTFT, and to recognize the hand gesture associated with the command in hand detector module. Moreover, because of the cyclic dependency of the modules on each other, it is very important for them to always be synchronized. This is why we chose to use FIFOs for the communication in the system; they are blocking channels where the sender will wait until the receiver has read the command, or the other way with the receivers waiting to get the next command. The read and write to FIFO calls in each iteration of the main loop of all the modules ensures that they are constantly in sync. The instances of a module reading/writing one of the FIFOs has been shown in the flowcharts of each of the modules. Overall, all the communication channels between these different parts of the system have been summarized in the plot below.</p>
 
+            <figure>
+              <img src="images/communication_chart.png" width="100%">
+              <figcaption><i>Figure: Flowchart of how all the modules communicate with each other and with the peripherals</i></figcaption>
+            </figure>
+
                 
         </div>
     </div>

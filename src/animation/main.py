@@ -1,8 +1,22 @@
+""" 
+ECE 5725 Spring 2021
+Final Project
+
+PiDog
+Aryaa Pai (avp34) and Krithik Ranjan (kr397)
+
+Main script for the Animation module.
+Runs continuously to receive commands from other modules
+to display animations and play sounds.
+""" 
+
+# Import global libraries
 import os
 import sys, pygame
 import time
 import subprocess
 
+# List of animation frame files
 EAR_ANIMATION = ["dog_images/dog_normal.png","dog_images/dog_ear_up_1.png", "dog_images/dog_ear_up_2.png","dog_images/dog_ear_up_3.png","dog_images/dog_ear_up_4.png","dog_images/dog_ear_up_5.png","dog_images/dog_ear_up_6.png"]   
 EYE_ANIMATION = ["dog_images/dog_normal.png","dog_images/dog_look_1.png","dog_images/dog_look_2.png"]
 
@@ -10,7 +24,10 @@ EYE_ANIMATION = ["dog_images/dog_normal.png","dog_images/dog_look_1.png","dog_im
 os.putenv('SDL_VIDEODRIVER', 'fbcon')
 os.putenv('SDL_FBDEV', '/dev/fb0')
 
-# Displays the image on the PiTFT screen
+""" 
+display(img)
+Displays the image on the PiTFT screen
+"""
 def display(img):
     global screen
     dog = pygame.image.load(img)
@@ -29,19 +46,18 @@ screen = pygame.display.set_mode(size)
 # Displaying Initial Frame
 display("dog_images/dog_normal.png")
 
-
+# Main loop
 flag = True
 while(flag):
-
+    # Fail-safe for PyGame
     for event in pygame.event.get():
         if event.type == pygame.QUIT: 
             flag = False
             sys.exit()
 
-    # Read audio command
+    # Wait for audio command from speech recognition
     speech_fifo = open('../speechToAnimation.fifo', 'r')
     audio_cmd = speech_fifo.readline()[:-1]
-    #audio_cmd = input("Please Enter User Input: ")
 
     # Case: started recording audio
     if(audio_cmd == "1"):
@@ -66,7 +82,6 @@ while(flag):
         print("Look left")
         display("dog_images/dog_right.png")
         
-
     # Case: right audio command
     elif(audio_cmd == "RIGHT"):
         print("Look right")
@@ -121,10 +136,8 @@ while(flag):
     # Wait for motion to finish   
     speech_fifo = open('../speechToAnimation.fifo', 'r')
     speech_cmd = speech_fifo.readline()[:-1] 
-    
-    #motor_cmd = input("Please Enter User Input: ")
-    
-    # Animation for look
+        
+    # Closing animation for look
     if(audio_cmd == "LOOK"):
         # Unwiden Eyes
         print("Unwiden eyes")
