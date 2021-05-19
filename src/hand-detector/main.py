@@ -63,6 +63,8 @@ def main():
                 # Send complete acknowledgement to speech-recognition
                 subprocess.check_output('echo "DONE" > ../handToSpeech.fifo', shell=True)
                 subprocess.check_output('echo "DONE" >> ../handToSpeech.log', shell=True)
+
+                prev_look = False
             
             # Reinforcement for previous detection
             elif (audio_cmd == "GOOD" and prev_img_hand is not None and prev_look):
@@ -98,6 +100,7 @@ def main():
                         prev_look = True
                     else:
                         print("No prediction")
+                        prev_look = False
                         # # Send command to indicate hand not found
                         # subprocess.check_output('echo "NONE" > ../handToMotion.fifo', shell=True)
                         # subprocess.check_output('echo "NONE" >> ../handToMotion.log', shell=True)
@@ -106,6 +109,7 @@ def main():
                         # motion_cmd = motion_fifo.readline()[:-1]
                 else:
                     print("Hand not found") 
+                    prev_look = False
                 # Send complete acknowledgement to speech-recognition
                 subprocess.check_output('echo "DONE" > ../handToSpeech.fifo', shell=True)
                 subprocess.check_output('echo "DONE" >> ../handToSpeech.log', shell=True)
@@ -166,6 +170,10 @@ def main():
                         # Wait until motion is completed
                         motion_fifo = open('../motionToHand.fifo', 'r')
                         motion_cmd = motion_fifo.readline()[:-1]
+                    # Calibrate background once motion complete
+                    detector.calibrateBackground()
+                    print("Calibration Done")
+                    
                     # Send acknowledgement to speech-recognition that new command has been added 
                     subprocess.check_output('echo ' + audio_cmd + ' > ../handToSpeech.fifo', shell=True)
                     subprocess.check_output('echo ' + audio_cmd + ' >> ../handToSpeech.log', shell=True)
@@ -181,6 +189,8 @@ def main():
                     
                     subprocess.check_output('echo "NONE" > ../handToSpeech.fifo', shell=True)
                     subprocess.check_output('echo "NONE" >> ../handToSpeech.log', shell=True)
+                
+                prev_look = False
 
 
     except KeyboardInterrupt:

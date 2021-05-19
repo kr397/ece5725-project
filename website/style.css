@@ -1,12 +1,31 @@
 @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+@import url('https://fonts.googleapis.com/css2?family=BioRhyme:wght@300;400;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Proza+Libre:wght@500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&display=swap');
 body {
     font-family: 'Poppins', sans-serif;
     background: #fafafa;
+    color: rgb(80, 80, 80);
 }
 
 .starter-template {
   text-align: center;
   padding: 40px 15px;
+}
+
+.starter-template li {
+  color:rgb(80, 80, 80);
+  font-size: 1.1em;
+  line-height: 1.7;
+  font-weight: 300;
+}
+
+.lead b {
+  font-weight: 500;
+}
+
+.starter-template b {
+  font-weight: 600;
 }
 
 .container {
@@ -21,6 +40,15 @@ body {
 
 .container h2 {
   padding-bottom: 50px;
+}
+
+
+h1 {
+  font-family: 'Comfortaa', 'cursive';
+}
+
+h2 {
+  font-family: 'Comfortaa', 'cursive';
 }
 
 hr { margin: 20px 0 20px 0; }
@@ -40,7 +68,7 @@ p {
     font-size: 1.1em;
     font-weight: 300;
     line-height: 1.7em;
-    color: rgb(125, 125, 125);
+    color: rgb(80, 80, 80);
     text-align: left;
 }
 
@@ -55,6 +83,10 @@ code {
   color:#15c2e9;
 }
 
+figure {
+  text-align: center;
+  padding: 20px 0px;
+}
 
 #sidebar {
     /* don't forget to add all the previously mentioned styles here too */
@@ -64,6 +96,7 @@ code {
     position: fixed ;
     top: 0;
     bottom:0;
+    font-family: 'Comfortaa', 'cursive';
     /* overflow-y: scroll; */
     
 }
@@ -100,6 +133,7 @@ code {
     color: #fff;
     background: #15c2e9;
 }
+
 ul ul a {
     font-size: 0.9em !important;
     padding-left: 30px !important;

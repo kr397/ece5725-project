@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Starter Template for Bootstrap</title>
+    <title>PiDog</title>
 
     <!-- Bootstrap core CSS -->
     <link href="dist/css/bootstrap.min.css" rel="stylesheet">
@@ -18,6 +18,7 @@
 
     <!-- Custom styles for this template -->
     <link href="style.css" rel="stylesheet">
+
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
     <!-- <script src="../../assets/js/ie-emulation-modes-warning.js"></script> -->
@@ -36,23 +37,21 @@
           <h2>PiDog</h2>
           <img class="img-rounded" src="images/dog_normal.png" alt="Generic placeholder image" ></img>
           <h3>ECE 5725 Final Project</h3>
+          <h4>Spring 2021</h4>
           <h4>Aryaa Pai | Krithik Ranjan </h4>
       </div>
       <ul class="list-unstyled components">
           <li >
               <a href="index.html">Home</a>
           </li>
-          <li >
-              <a href="goals.html">Project Objective</a>
-          </li>
           <li class="active">
             <a href="features.html">Features</a>  
           </li>
           <li>
-            <a href="implementation.html">Implementation</a>
+            <a href="hw_design.html">Hardware Design</a>
           </li>
           <li>
-              <a href="future_scope.html">Future Scope</a>
+            <a href="sw_implementation.html">Software Implementation</a>
           </li>
           <li>
               <a href="conclusion.html">Conclusion</a>
@@ -61,10 +60,49 @@
     </nav>
 
     
-    <div class="container starter-templated">
-        <div style="text-align:center;">
-                <h2>Features</h2>
-                <p style="text-align: left;padding: 0px 30px;">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum lorem nulla, consectetur at leo vel, pretium bibendum nisl. Cras blandit quam a enim ultrices, eu convallis enim posuere. Donec eleifend enim sed purus consectetur, vitae cursus lectus varius. Vivamus consectetur felis nec est venenatis posuere. Phasellus vitae aliquet erat. In laoreet lacinia mollis. Quisque iaculis nisl fermentum pharetra lobortis. Donec rhoncus dui sem, ac molestie leo tristique vel. Phasellus in nibh feugiat, fringilla lectus in, elementum magna. Etiam quis dui condimentum, tempus ex in, dapibus est. Cras ut congue augue. Donec ac enim ex. Ut id tristique risus, vel porttitor quam. Sed ultricies enim eu nibh porttitor, vel sodales enim feugiat. Fusce volutpat venenatis magna ac ultrices. Curabitur eget urna ut nulla mattis convallis non eu diam.</p>
+    <div class="container starter-template">
+        <div style="text-align:left; padding: 0px 30px;">
+            <h2 style="text-align: center;">Features</h2>
+            <p>The PiDog has been designed as a complete pet robot packed with features to make it an enjoyable pet. Once turned on, it waits for the user to come back home, after which it activates with a bark. In the active state, the robot is constantly listening for any voice commands given to it, which it indicates by turning it's ear up and down repeatedly. ### GIF OF EAR UP AND DOWN When the dog's ear is up, the user can give any of the four action commands: GO, BACK, LEFT, RIGHT, or even turn it off by saying QUIT. These commands are mapped to specific motions to be performed by the robot. For the turning commands, the dog also responds by moving its tongue in the direction it is turning. #### GIFS</p>
+            <ul>
+              <li>GO: Forward for 2s</li>
+              <li>BACK: Rotate to face back</li>
+              <li>RIGHT: Turn right</li>
+              <li>LEFT: Turn left</li>
+            </ul>
+
+            <h3>Stage 1 Training</h3>
+            <p>Every time the PiDog hears a voice command, it also looks for any hand gestures in front of its collar (camera). These hand gestures are associated by the robot with the action command to "learn" the gesture command. This means that if the user says gives a command a few times and shows the same gesture to PiDog, it will learn to follow the gesture directly (without needing the voice command). In order to do this, the user simply needs to say LOOK, show the hand gesture, and the robot will perform the desired action! When the robot hears the LOOK command, it widens its eyes to show that it is recognizing the hand gesture. The steps in this stage 1 training are as follows. #### GIFS</p>
+            <ol>
+              <li>Speak a voice action command (GO, BACK, LEFT, RIGHT) and show a chosen hand gesture for that command.</li>
+              <li>Give other voice commands with their hand gestures.</li>
+              <li>Repeat 5-10 times.</li>
+              <li>Speak the LOOK command and show the hand gesture for the desired action.</li>
+              <li>PiDog will perform the action!</li>
+            </ol>
+
+
+            <p>The physical design of PiDog is a two-wheeled robot with a Raspberry Pi with PiTFT screen mounted on top. For this, we adopted the robot kit we used in Lab 3 and built on top of it to add other components. The robot broadly consists of the following parts: Raspberry Pi + PiTFT, breadboard circuit with motor driver, HC-SR04 Ultrasonic sensor, Raspberry Pi HQ Camera, USB microphone, portable speaker, power bank, robot chassis + wheels. The basic robot was the same as in Lab 3, which used the TB6612FNG motor driver IC connected to +6V power and two DC geared motors. The motor driver was connected to GPIO pins on the Raspberry Pi, which were manipulated with PWM to run the motors. We used the ultrasonic sensor to detect any obstacles in front of the robot, and was therefore mounted on the very front edge with the help of velcro. The HC-SR04 sensor consists of four pins, two for power and <code>TRIG</code> and <code>ECHO</code>, which were connected as GPIO. Since this sensor operates at 5V, we used a voltage divider circuit to drop down the voltage level to 3.3V for the Raspberry Pi. The USB mini-microphone was connected directly to a USB port on the Raspberry Pi, and was used for speech recognition of voice commands. The installation of the camera required some design considerations. We had initially planned to have it face forward, such that it detects hand gestures done in front of the robot. However, the way the hand detection algorithm was designed, it needed a static background against which the hand was compared. Since the robot is mobile and would face different surroundings at different times, we decided to mount the camera facing straight up in order to keep the ceiling as a pseudo-static background. This was also biomechanically better as interacting with the robot so low on the ground would have been strenuous. Now, however, we needed to ensure that the camera faces exactly up, otherwise it might also detect the body of the user while doing the hand gesture. (See <a href="sw_implementation.html">Software Implementation</a>: Hand Detector) This camera was connected to the camera port on the Raspberry Pi and placed on top of a platform to face up. Finally, the portable speaker was used to play a barking sound, and connected to the AUX port on the Raspberry Pi. The Pi and all these components (except motors) were powered by the power bank. For aesthetic purposes and as the platform for the camera, we created a cardboard shell over the robot that also serves as the body of PiDog!</p>
+
+            <figure>
+                <img src="images/Circuit.svg">
+                <figcaption><i>Figure: Circuit diagram of PiDog</i></figcaption>
+            </figure>
+            <figure>
+                <img src="images/circuit_pic.jpg" width="45%">
+                <img src="images/body_top.jpg" width="45%">
+            </figure>
+            <figure>
+                <img src="images/body_front.jpg" width="45%">
+                <img src="images/body_side.jpg" width="45%">
+                <figcaption><i>Figure: Final construction of PiDog with the shell; the circuit, top, front and side view</i></figcaption>
+            </figure>
+
+            <h3>Budget</h3>
+            <figure>
+                <img src="images/budget.png">
+                <figcaption><i>Figure: Bill of materials of all the parts used in the project</i></figcaption>
+            </figure>
         </div>
     </div>
     <!-- Bootstrap core JavaScript

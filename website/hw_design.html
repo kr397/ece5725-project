@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>PiDog</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <!-- <link href="../../assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet"> -->
+
+    <!-- Custom styles for this template -->
+    <link href="style.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <!-- <script src="../../assets/js/ie-emulation-modes-warning.js"></script> -->
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+    
+    <nav id="sidebar">
+      <div class="sidebar-header">
+          <h2>PiDog</h2>
+          <img class="img-rounded" src="images/dog_normal.png" alt="Generic placeholder image" ></img>
+          <h3>ECE 5725 Final Project</h3>
+          <h4>Spring 2021</h4>
+          <h4>Aryaa Pai | Krithik Ranjan </h4>
+      </div>
+      <ul class="list-unstyled components">
+          <li >
+              <a href="index.html">Home</a>
+          </li>
+          <li>
+            <a href="features.html">Features</a>  
+          </li>
+          <li class="active">
+            <a href="hw_design.html">Hardware Design</a>
+          </li>
+          <li>
+            <a href="sw_implementation.html">Software Implementation</a>
+          </li>
+          <li>
+              <a href="conclusion.html">Conclusion</a>
+          </li>
+      </ul>
+    </nav>
+
+    
+    <div class="container starter-templated">
+        <div style="text-align:left; padding: 0px 30px;">
+            <h2 style="text-align: center;">Hardware Design</h2>
+            <p>The physical design of PiDog is a two-wheeled robot with a Raspberry Pi with PiTFT screen mounted on top. For this, we adopted the robot kit we used in Lab 3 and built on top of it to add other components. The robot broadly consists of the following parts: Raspberry Pi + PiTFT, breadboard circuit with motor driver, HC-SR04 Ultrasonic sensor, Raspberry Pi HQ Camera, USB microphone, portable speaker, power bank, robot chassis + wheels. The basic robot was the same as in Lab 3, which used the TB6612FNG motor driver IC connected to +6V power and two DC geared motors. The motor driver was connected to GPIO pins on the Raspberry Pi, which were manipulated with PWM to run the motors. We used the ultrasonic sensor to detect any obstacles in front of the robot, and was therefore mounted on the very front edge with the help of velcro. The HC-SR04 sensor consists of four pins, two for power and <code>TRIG</code> and <code>ECHO</code>, which were connected as GPIO. Since this sensor operates at 5V, we used a voltage divider circuit to drop down the voltage level to 3.3V for the Raspberry Pi. The USB mini-microphone was connected directly to a USB port on the Raspberry Pi, and was used for speech recognition of voice commands. The installation of the camera required some design considerations. We had initially planned to have it face forward, such that it detects hand gestures done in front of the robot. However, the way the hand detection algorithm was designed, it needed a static background against which the hand was compared. Since the robot is mobile and would face different surroundings at different times, we decided to mount the camera facing straight up in order to keep the ceiling as a pseudo-static background. This was also biomechanically better as interacting with the robot so low on the ground would have been strenuous. Now, however, we needed to ensure that the camera faces exactly up, otherwise it might also detect the body of the user while doing the hand gesture. (See <a href="sw_implementation.html">Software Implementation</a>: Hand Detector) This camera was connected to the camera port on the Raspberry Pi and placed on top of a platform to face up. Finally, the portable speaker was used to play a barking sound, and connected to the AUX port on the Raspberry Pi. The Pi and all these components (except motors) were powered by the power bank. For aesthetic purposes and as the platform for the camera, we created a cardboard shell over the robot that also serves as the body of PiDog!</p>
+
+            <figure>
+                <img src="images/Circuit.svg">
+                <figcaption><i>Figure: Circuit diagram of PiDog</i></figcaption>
+            </figure>
+            <figure>
+                <img src="images/circuit_pic.jpg" width="45%">
+                <img src="images/body_top.jpg" width="45%">
+            </figure>
+            <figure>
+                <img src="images/body_front.jpg" width="45%">
+                <img src="images/body_side.jpg" width="45%">
+                <figcaption><i>Figure: Final construction of PiDog with the shell; the circuit, top, front and side view</i></figcaption>
+            </figure>
+
+            <h3>Budget</h3>
+            <figure>
+                <img src="images/budget.png">
+                <figcaption><i>Figure: Bill of materials of all the parts used in the project</i></figcaption>
+            </figure>
+        </div>
+    </div>
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+    <script src="dist/js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <!-- <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script> -->
+  </body>
+</html>
