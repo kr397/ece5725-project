@@ -78,6 +78,10 @@ p {
     transition: all 0.3s;
 }
 
+a, a:hover, a:focus {
+  color: #15c2e9;
+}
+
 code {
   background: #f6fdff;
   color:#15c2e9;

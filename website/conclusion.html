@@ -56,7 +56,10 @@
             <a href="sw_implementation.html">Software Implementation</a>
           </li>
           <li class="active">
-              <a href="conclusion.html">Wrap-up</a>
+            <a href="conclusion.html">Wrap-up</a>
+          </li>
+          <li>
+            <a href="https://github.com/kr397/ece5725-project">Code Appendix</a>
           </li>
       </ul>
     </nav>
@@ -65,7 +68,7 @@
     <div class="container starter-template">
         <div style="text-align:left; padding: 0px 30px;">
           <h2 style="text-align: center;">Wrap-up</h2>
-
+          <h3>Results and Conclusion</h3>
           <p>We were successfully able to create a robot that was controlled by audio commands and could be trained to learn new hand gestures and new audio commands. We had not seen the training process for a pet animal being shown in robotics before and we are glad that we could demonstrate it through Stage 1 and Stage 2 Training. We were able to achieve all the functionality mentioned in the Project Proposal, except the FETCH command. The speech recognition module and the motor control were implemented fairly easily by the second week. However, we were set back a week from our proposed schedule due to initial issues faced with the hand detection module. Once we were able to detect hand gestures, implementing Stage 1 training was very smooth. The results from the ML models used were impressive, especially for such small data sets. To implement Stage 2 training, we had to change our core implementation details a lot to accommodate the sequence of motions instead of a single motion and the new command functionality. Separating all the four modules since the beginning was extremely beneficial as it helped us keep our code clean and work on the modules separately. Our strategy for the design process was to implement the functionalities one by one. Once the functionality was tested individually, it was integrated with the rest of the system.
           <ul>
           <li><b>Week 1:</b> Project finalization and research</li>
@@ -75,22 +78,50 @@
           <li><b>Week 5: </b>Final demo + Documentation</li>
           </ul>
           </p>
-          <p> As mentioned above the setbacks faced were due to installation issues and using external libraries. We had to spend a lot of time setting up the initial system, including switching back the kernel used to the original version. Throughout the process we took backups and uploaded the code to github to ensure that our work was safe. As it was described in the Software Implementation section, our design of the system divided into four modules helped us test and debug them individually before integrating with the other modules. Given the nature of our project, our primary testing methodology was observation over multiple runs, which helped us catch and fix many bugs. We have also included support for log files from each module and FIFOs that enable us to view exactly the behavior of the system and verify proper functionality.
-          </p>
-          <p> The final product of this project - PiDog is a completely autonomous, wireless, embedded system that uses the Raspberry Pi as its brain. We have created this robot such that almost the entire functionality is limited to the embedded Linux operating system on the Pi, while several techniques learnt this course to build an effective and efficient device. GPIO and PWM are used on the Raspberry Pi with the motor driver to run both the motors. The PyGame library is used to display the animations on the PiTFT. We have four modules, each running as its own process (making use of the multi core processor), which communicate with each other using blocking FIFOs. We have also written bash scripts and used Python’s subprocess module to run the linux commands. 
-          </p>
-          <p> Given more time for the project, we would have liked to add the functionality for the FETCH command with a red ball, which was a part of our initial proposal. FETCH is in an inbuilt command, on recognizing it the PiDog will look for its small red ball which should be thrown in front of it. Using object detection the PiDog will track the ball and move towards. The PiDog will bark when it finds the ball. To include this functionality, a front facing camera is required. We could either use two different cameras (the current PiCam facing upwards and an additional front facing webcam) or use a Pan Tilt Platform to move the PiCam in a different direction. Adding this feature would increase PiDog’s resemblance of a real pet dog. Improving the voice recognition and gesture detection to work in unpredictable environments would be very helpful. Replacing the wheels and the robot frame with four legs would mimic the movements of a real dog to a greater extent. Each leg would have three servos, one for each joint - ankle, knee and hip. With legs, more basic commands like left leg forward or jump can be added. We hope to implement these additional features in the future and develop PiDog prototype into a fully functioning product.. </p>
+          <p> As mentioned above the setbacks faced were due to installation issues and using external libraries. We had to spend a lot of time setting up the initial system, including switching back the kernel used to the original version. Throughout the process we took backups and uploaded the code to github to ensure that our work was safe. As it was described in the Software Implementation section, our design of the system divided into four modules helped us test and debug them individually before integrating with the other modules. Given the nature of our project, our primary testing methodology was observation over multiple runs, which helped us catch and fix many bugs. We have also included support for log files from each module and FIFOs that enable us to view exactly the behavior of the system and verify proper functionality. </p>
+          <p> The final product of this project - PiDog is a completely autonomous, wireless, embedded system that uses the Raspberry Pi as its brain. We have created this robot such that almost the entire functionality is limited to the embedded Linux operating system on the Pi, while several techniques learnt this course to build an effective and efficient device. GPIO and PWM are used on the Raspberry Pi with the motor driver to run both the motors. The PyGame library is used to display the animations on the PiTFT. We have four modules, each running as its own process (making use of the multi core processor), which communicate with each other using blocking FIFOs. We have also written bash scripts and used Python’s subprocess module to run the linux commands. </p>
           <p>We worked on this project collaboratively. Initially, Krithik worked on the Speech Recognition and Motor controls module, whereas Aryaa implemented the Hand Detection module with computer vision and machine learning modules. The Stage 1 and Stage 2 Training, along with animations were implemented together. We used github to maintain the code base. As we both are currently located in Ithaca, we were able to meet in person to work together. We completed the documentation and website together as well.</p>            
+          <h3>Future Work</h3>
+          <p> Given more time for the project, we would have liked to add the functionality for the FETCH command with a red ball, which was a part of our initial proposal. FETCH is in an inbuilt command, on recognizing it the PiDog will look for its small red ball which should be thrown in front of it. Using object detection the PiDog will track the ball and move towards. The PiDog will bark when it finds the ball. To include this functionality, a front facing camera is required. We could either use two different cameras (the current PiCam facing upwards and an additional front facing webcam) or use a Pan Tilt Platform to move the PiCam in a different direction. Adding this feature would increase PiDog’s resemblance of a real pet dog. Improving the voice recognition and gesture detection to work in unpredictable environments would be very helpful. Replacing the wheels and the robot frame with four legs would mimic the movements of a real dog to a greater extent. Each leg would have three servos, one for each joint - ankle, knee and hip. With legs, more basic commands like left leg forward or jump can be added. We hope to implement these additional features in the future and develop PiDog prototype into a fully functioning product. </p>
         
           <h3>References</h3>
           <p>Speech Recognition</p>
           <ul>
+            <li><a href="https://realpython.com/python-speech-recognition/">The Ultimate Guide To Speech Recognition With Python – Real Python</a></li>
             <li><a href="https://oscarliang.com/raspberry-pi-voice-recognition-works-like-siri/#:~:text=Raspberry%20Pi%20Voice%20Recognition%20Works%20Like%20Siri%201,Putting%20It%20Together.%20...%205%20The%20End.%20">Raspberry Pi Voice Recognition Works Like Siri - Oscar Liang</a></li>
             <li><a href="https://maker.pro/raspberry-pi/tutorial/the-best-voice-recognition-software-for-raspberry-pi">The Best Voice Recognition Software for Raspberry Pi | Raspberry Pi | Maker Pro</a></li>
             <li><a href="https://towardsdatascience.com/speech-recognition-in-python-the-complete-beginners-guide-de1dd7f00726">Speech Recognition in Python- The Complete Beginner’s Guide | by Behic Guven | Towards Data Science</a></li>
             <li><a href="https://tutorials-raspberrypi.com/build-raspberry-pi-voice-control-for-home-automation/">How to build Raspberry Pi voice control (home automation)</a></li>
-            <li><a href="https://realpython.com/python-speech-recognition/">The Ultimate Guide To Speech Recognition With Python – Real Python</a></li>
+            <li><a href="https://www.pragnakalp.com/speech-recognition-speech-to-text-python-using-google-api-wit-ai-ibm-cmusphinx/#:~:text=Speech%20Recognition%20%E2%80%93%20Speech%20to%20Text%20in%20Python,Watson%20Speech%20to%20Text.%20...%205%20WIT.AI.%20">Speech Recognition - Speech to Text in Python using Google API, Wit.AI, IBM, CMUSphinx</a></li>
+            <li><a href="https://coderslegacy.com/python/pyaudio-recording-and-playing-sound/#:~:text=Python%20pyaudio%20%E2%80%93%20Recording%20and%20Playing%20Sound%20This,Operating%20systems%20such%20as%20windows%2C%20Mac%20and%20Linux.">Python PyAudio - Recording and Playing Sound</a></li>
+            <li><a href="http://wiki.sunfounder.cc/index.php?title=To_use_USB_mini_microphone_on_Raspbian">To use USB mini microphone on Raspbian - Wiki</a></li>
+            <li><a href="https://realpython.com/playing-and-recording-sound-python/">Playing and Recording Sound in Python - Real Python</a></li>
           </ul>
+          <p>Hand Gesture Recognition</p>
+          <ul>
+            <li><a href="https://gogul.dev/software/hand-gesture-recognition-p1">Hand Gesture Recognition using Python and OpenCV - Part 1 and 2</a></li>
+            <li><a href="https://pierfrancesco-soffritti.medium.com/handy-hands-detection-with-opencv-ac6e9fb3cec1">Hand Detector With OpenCV</a></li>
+            <li><a href="https://becominghuman.ai/real-time-finger-detection-1e18fea0d1d4">Real-time Finger Detection</a></li>
+            <li><a href="https://dev.to/amarlearning/finger-detection-and-tracking-using-opencv-and-python-586m">Finger Detection and Tracking using OpenCV and Python</a></li>
+            <li><a href="https://github.com/CMU-Perceptual-Computing-Lab/openpose">CMU Pereptual Computing Lab</a></li>
+            <li><a href="https://google.github.io/mediapipe/">MediaPipe</a></li>
+            <li><a href="https://www.sciencedirect.com/science/article/pii/S1877050917319130/pdf?md5=07aa303ab545385393b1e78b944b328a&pid=1-s2.0-S1877050917319130-main.pdf">Hand Gesture Recognition for Human Computer Interaction - Haria et. al.</a></li>
+          </ul>
+          <p>Animation</p>
+          <ul>
+            <li><a href="https://www.figma.com">Figma: the collaborative interface design tool</a></li>
+          </ul>
+          <p>Website</p>
+          <ul>
+            <li><a href="https://ezgif.com/">EZGIF.com Animated GIFs Made Easy</a></li>
+            <li><a href="https://www.favicon-generator.org/">Favicon Generator</a></li>
+            <li><a href="https://www.tinkercad.com">TinkerCAD Circuit Design Tool</a></li>
+          </ul>
+          <p>Student Projects</p>
+          <ul>
+            <li><a href="https://courses.ece.cornell.edu/ece5990/ECE5725_Spring2020_Projects/May_15_Demo/Air%20Painter/awt46_sc2524_Thursday-3/awt46_sc2524_Thursday/index.html">Air Painter</a></li>
+            <li><a href="https://courses.ece.cornell.edu/ece5990/ECE5725_Fall2020_Projects/Dec_17_Demo/Theremin/html/index.html">Video-Based Polyphonic Theremin</a></li>
+          </ul> 
         </div>
     </div>
 
