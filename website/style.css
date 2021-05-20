@@ -19,7 +19,24 @@ body {
   line-height: 1.7;
   font-weight: 300;
 }
+.people {
+  text-align: center;
+  margin: auto;
+  display: flex;
+}
+.portrait-container {
+  margin: 0 auto;
+  width: 50%;
 
+}
+.portrait-container img {
+  border-radius: 50%;
+  width:30%;
+  margin-bottom: 10px;
+}
+.portrait-container p {
+  margin:0px;
+}
 .lead b {
   font-weight: 500;
 }
