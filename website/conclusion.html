@@ -37,35 +37,49 @@
           <h2>PiDog</h2>
           <img class="img-rounded" src="images/dog_normal.png" alt="Generic placeholder image" ></img>
           <h3>ECE 5725 Final Project</h3>
+          <h4>Spring 2021</h4>
           <h4>Aryaa Pai | Krithik Ranjan </h4>
       </div>
       <ul class="list-unstyled components">
           <li >
               <a href="index.html">Home</a>
           </li>
-          <li >
-              <a href="goals.html">Project Objective</a>
+          <li>
+            <a href="features.html">Features</a>  
           </li>
           <li>
-              <a href="features.html">Features</a>  
+            <a href="hw_design.html">Hardware Design</a>
           </li>
           <li>
-            <a href="implementation.html">Implementation</a>
-          </li>
-          <li>
-              <a href="future_scope.html">Future Scope</a>
+            <a href="sw_implementation.html">Software Implementation</a>
           </li>
           <li class="active">
-              <a href="conclusion.html">Conclusion</a>
+              <a href="conclusion.html">Wrap-up</a>
           </li>
       </ul>
     </nav>
 
     
-    <div class="container starter-templated">
-        <div style="text-align:center;">
-                <h2>Future Scope</h2>
-                <p style="text-align: left;padding: 0px 30px;">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum lorem nulla, consectetur at leo vel, pretium bibendum nisl. Cras blandit quam a enim ultrices, eu convallis enim posuere. Donec eleifend enim sed purus consectetur, vitae cursus lectus varius. Vivamus consectetur felis nec est venenatis posuere. Phasellus vitae aliquet erat. In laoreet lacinia mollis. Quisque iaculis nisl fermentum pharetra lobortis. Donec rhoncus dui sem, ac molestie leo tristique vel. Phasellus in nibh feugiat, fringilla lectus in, elementum magna. Etiam quis dui condimentum, tempus ex in, dapibus est. Cras ut congue augue. Donec ac enim ex. Ut id tristique risus, vel porttitor quam. Sed ultricies enim eu nibh porttitor, vel sodales enim feugiat. Fusce volutpat venenatis magna ac ultrices. Curabitur eget urna ut nulla mattis convallis non eu diam.</p>
+    <div class="container starter-template">
+        <div style="text-align:left; padding: 0px 30px;">
+          <h2 style="text-align: center;">Wrap-up</h2>
+
+          <p>We were successfully able to create a robot that was controlled by audio commands and could be trained to learn new hand gestures and new audio commands. We had not seen the training process for a pet animal being shown in robotics before and we are glad that we could demonstrate it through Stage 1 and Stage 2 Training. We were able to achieve all the functionality mentioned in the Project Proposal, except the FETCH command. The speech recognition module and the motor control were implemented fairly easily by the second week. However, we were set back a week from our proposed schedule due to initial issues faced with the hand detection module. Once we were able to detect hand gestures, implementing Stage 1 training was very smooth. The results from the ML models used were impressive, especially for such small data sets. To implement Stage 2 training, we had to change our core implementation details a lot to accommodate the sequence of motions instead of a single motion and the new command functionality. Separating all the four modules since the beginning was extremely beneficial as it helped us keep our code clean and work on the modules separately. Our strategy for the design process was to implement the functionalities one by one. Once the functionality was tested individually, it was integrated with the rest of the system.
+          <ul>
+          <li><b>Week 1:</b> Project finalization and research</li>
+          <li><b>Week 2: </b> Speech recognition + robot responding to voice commands</li>
+          <li><b>Week 3: </b>Phase 1 training; PiDog learning hand gestures with voice commands and performing them independently</li>
+          <li><b>Week 4: </b>Phase 2 training; PiDog learning new voice commands; integration of animation + audio</li>
+          <li><b>Week 5: </b>Final demo + Documentation</li>
+          </ul>
+          </p>
+          <p> As mentioned above the setbacks faced were due to installation issues and using external libraries. We had to spend a lot of time setting up the initial system, including switching back the kernel used to the original version. Throughout the process we took backups and uploaded the code to github to ensure that our work was safe.
+          </p>
+          <p> The final product of this project - PiDog is a completely autonomous, wireless, embedded system that uses the Raspberry Pi as its brain. We have created this robot such that almost the entire functionality is limited to the embedded Linux operating system on the Pi, while several techniques learnt this course to build an effective and efficient device. GPIO and PWM are used on the Raspberry Pi with the motor driver to run both the motors. The PyGame library is used to display the animations on the PiTFT. We have four modules, each running as its own process (making use of the multi core processor), which communicate with each other using blocking FIFOs. We have also written bash scripts and used Python’s subprocess module to run the linux commands. 
+          </p>
+          <p> Given more time for the project, we would have liked to add the functionality for the FETCH command with a red ball, which was a part of our initial proposal. FETCH is in an inbuilt command, on recognizing it the PiDog will look for its small red ball which should be thrown in front of it. Using object detection the PiDog will track the ball and move towards. The PiDog will bark when it finds the ball. To include this functionality, a front facing camera is required. We could either use two different cameras (the current PiCam facing upwards and an additional front facing webcam) or use a Pan Tilt Platform to move the PiCam in a different direction. Adding this feature would increase PiDog’s resemblance of a real pet dog. Improving the voice recognition and gesture detection to work in unpredictable environments would be very helpful. Replacing the wheels and the robot frame with four legs would mimic the movements of a real dog to a greater extent. Each leg would have three servos, one for each joint - ankle, knee and hip. With legs, more basic commands like left leg forward or jump can be added. We hope to implement these additional features in the future and develop PiDog prototype into a fully functioning product.. </p>
+          <p>We worked on this project collaboratively. Initially, Krithik worked on the Speech Recognition and Motor controls module, whereas Aryaa implemented the Hand Detection module with computer vision and machine learning modules. The Stage 1 and Stage 2 Training, along with animations were implemented together. We used github to maintain the code base. As we both are currently located in Ithaca, we were able to meet in person to work together. We completed the documentation and website together as well.</p>            
+
         </div>
     </div>
     <!-- Bootstrap core JavaScript
