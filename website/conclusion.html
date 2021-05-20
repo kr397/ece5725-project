@@ -19,6 +19,8 @@
     <!-- Custom styles for this template -->
     <link href="style.css" rel="stylesheet">
 
+    <link rel="icon" href="favicon.ico" type = "image/x-icon">
+
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
     <!-- <script src="../../assets/js/ie-emulation-modes-warning.js"></script> -->
@@ -73,15 +75,26 @@
           <li><b>Week 5: </b>Final demo + Documentation</li>
           </ul>
           </p>
-          <p> As mentioned above the setbacks faced were due to installation issues and using external libraries. We had to spend a lot of time setting up the initial system, including switching back the kernel used to the original version. Throughout the process we took backups and uploaded the code to github to ensure that our work was safe.
+          <p> As mentioned above the setbacks faced were due to installation issues and using external libraries. We had to spend a lot of time setting up the initial system, including switching back the kernel used to the original version. Throughout the process we took backups and uploaded the code to github to ensure that our work was safe. As it was described in the Software Implementation section, our design of the system divided into four modules helped us test and debug them individually before integrating with the other modules. Given the nature of our project, our primary testing methodology was observation over multiple runs, which helped us catch and fix many bugs. We have also included support for log files from each module and FIFOs that enable us to view exactly the behavior of the system and verify proper functionality.
           </p>
           <p> The final product of this project - PiDog is a completely autonomous, wireless, embedded system that uses the Raspberry Pi as its brain. We have created this robot such that almost the entire functionality is limited to the embedded Linux operating system on the Pi, while several techniques learnt this course to build an effective and efficient device. GPIO and PWM are used on the Raspberry Pi with the motor driver to run both the motors. The PyGame library is used to display the animations on the PiTFT. We have four modules, each running as its own process (making use of the multi core processor), which communicate with each other using blocking FIFOs. We have also written bash scripts and used Python’s subprocess module to run the linux commands. 
           </p>
           <p> Given more time for the project, we would have liked to add the functionality for the FETCH command with a red ball, which was a part of our initial proposal. FETCH is in an inbuilt command, on recognizing it the PiDog will look for its small red ball which should be thrown in front of it. Using object detection the PiDog will track the ball and move towards. The PiDog will bark when it finds the ball. To include this functionality, a front facing camera is required. We could either use two different cameras (the current PiCam facing upwards and an additional front facing webcam) or use a Pan Tilt Platform to move the PiCam in a different direction. Adding this feature would increase PiDog’s resemblance of a real pet dog. Improving the voice recognition and gesture detection to work in unpredictable environments would be very helpful. Replacing the wheels and the robot frame with four legs would mimic the movements of a real dog to a greater extent. Each leg would have three servos, one for each joint - ankle, knee and hip. With legs, more basic commands like left leg forward or jump can be added. We hope to implement these additional features in the future and develop PiDog prototype into a fully functioning product.. </p>
           <p>We worked on this project collaboratively. Initially, Krithik worked on the Speech Recognition and Motor controls module, whereas Aryaa implemented the Hand Detection module with computer vision and machine learning modules. The Stage 1 and Stage 2 Training, along with animations were implemented together. We used github to maintain the code base. As we both are currently located in Ithaca, we were able to meet in person to work together. We completed the documentation and website together as well.</p>            
-
+        
+          <h3>References</h3>
+          <p>Speech Recognition</p>
+          <ul>
+            <li><a href="https://oscarliang.com/raspberry-pi-voice-recognition-works-like-siri/#:~:text=Raspberry%20Pi%20Voice%20Recognition%20Works%20Like%20Siri%201,Putting%20It%20Together.%20...%205%20The%20End.%20">Raspberry Pi Voice Recognition Works Like Siri - Oscar Liang</a></li>
+            <li><a href="https://maker.pro/raspberry-pi/tutorial/the-best-voice-recognition-software-for-raspberry-pi">The Best Voice Recognition Software for Raspberry Pi | Raspberry Pi | Maker Pro</a></li>
+            <li><a href="https://towardsdatascience.com/speech-recognition-in-python-the-complete-beginners-guide-de1dd7f00726">Speech Recognition in Python- The Complete Beginner’s Guide | by Behic Guven | Towards Data Science</a></li>
+            <li><a href="https://tutorials-raspberrypi.com/build-raspberry-pi-voice-control-for-home-automation/">How to build Raspberry Pi voice control (home automation)</a></li>
+            <li><a href="https://realpython.com/python-speech-recognition/">The Ultimate Guide To Speech Recognition With Python – Real Python</a></li>
+          </ul>
         </div>
     </div>
+
+
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
