@@ -40,7 +40,6 @@
           <img class="img-rounded" src="images/dog_normal.png" alt="Generic placeholder image" ></img>
           <h3>ECE 5725 Final Project</h3>
           <h4>Spring 2021</h4>
-          <h4>Aryaa Pai | Krithik Ranjan </h4>
       </div>
       <ul class="list-unstyled components">
           <li >
@@ -62,6 +61,10 @@
             <a href="https://github.com/kr397/ece5725-project">Code Appendix</a>
           </li>
       </ul>
+      <div class="sidebar-footer">
+        <h5>Aryaa Pai <b>avp34</b> | Krithik Ranjan <b>kr397</b></h5>
+        <h5>May 19, 2021</h5>
+      </div>
     </nav>
 
     
@@ -79,10 +82,38 @@
           </ul>
           </p>
           <p> As mentioned above the setbacks faced were due to installation issues and using external libraries. We had to spend a lot of time setting up the initial system, including switching back the kernel used to the original version. Throughout the process we took backups and uploaded the code to github to ensure that our work was safe. As it was described in the Software Implementation section, our design of the system divided into four modules helped us test and debug them individually before integrating with the other modules. Given the nature of our project, our primary testing methodology was observation over multiple runs, which helped us catch and fix many bugs. We have also included support for log files from each module and FIFOs that enable us to view exactly the behavior of the system and verify proper functionality. </p>
-          <p> The final product of this project - PiDog is a completely autonomous, wireless, embedded system that uses the Raspberry Pi as its brain. We have created this robot such that almost the entire functionality is limited to the embedded Linux operating system on the Pi, while several techniques learnt this course to build an effective and efficient device. GPIO and PWM are used on the Raspberry Pi with the motor driver to run both the motors. The PyGame library is used to display the animations on the PiTFT. We have four modules, each running as its own process (making use of the multi core processor), which communicate with each other using blocking FIFOs. We have also written bash scripts and used Python’s subprocess module to run the linux commands. </p>
-          <p>We worked on this project collaboratively. Initially, Krithik worked on the Speech Recognition and Motor controls module, whereas Aryaa implemented the Hand Detection module with computer vision and machine learning modules. The Stage 1 and Stage 2 Training, along with animations were implemented together. We used github to maintain the code base. As we both are currently located in Ithaca, we were able to meet in person to work together. We completed the documentation and website together as well.</p>            
+          <p> The final product of this project - PiDog is a completely autonomous, wireless, embedded system that uses the Raspberry Pi as its brain. We have created this robot such that almost the entire functionality is limited to the embedded Linux operating system on the Pi, while several techniques learnt this course to build an effective and efficient device. GPIO and PWM are used on the Raspberry Pi with the motor driver to run both the motors. The PyGame library is used to display the animations on the PiTFT. We have four modules, each running as its own process (making use of the multi core processor), which communicate with each other using blocking FIFOs. We have also written bash scripts and used Python’s subprocess module to run the linux commands. </p>           
           <h3>Future Work</h3>
           <p> Given more time for the project, we would have liked to add the functionality for the FETCH command with a red ball, which was a part of our initial proposal. FETCH is in an inbuilt command, on recognizing it the PiDog will look for its small red ball which should be thrown in front of it. Using object detection the PiDog will track the ball and move towards. The PiDog will bark when it finds the ball. To include this functionality, a front facing camera is required. We could either use two different cameras (the current PiCam facing upwards and an additional front facing webcam) or use a Pan Tilt Platform to move the PiCam in a different direction. Adding this feature would increase PiDog’s resemblance of a real pet dog. Improving the voice recognition and gesture detection to work in unpredictable environments would be very helpful. Replacing the wheels and the robot frame with four legs would mimic the movements of a real dog to a greater extent. Each leg would have three servos, one for each joint - ankle, knee and hip. With legs, more basic commands like left leg forward or jump can be added. We hope to implement these additional features in the future and develop PiDog prototype into a fully functioning product. </p>
+          <h3>Team</h3>
+          <div class="people"> 
+            <div class="portrait-container">
+                <div class="col">
+                  <img src="images/aryaa.jpeg" class="left-img portrait" alt="Aryaa">
+                </div>
+                <div class="col">
+                  <div class="portrait-text middle">
+                    <b>Aryaa Vivek Pai</b>
+                    <p style="text-align:center;"> Computer Science, 2022</p>
+                    <p style="text-align:center;">avp34[at]cornell.edu</p>
+                  </div>
+                </div>
+            </div>
+            <div class="portrait-container">
+              <div class="col">
+                <img src="images/krithik.jpeg" class="left-img portrait" alt="Krithik">
+              </div>
+              <div class="col">
+                <div class="portrait-text middle">
+                  <b>Krithik Ranjan</b>
+                  <p style="text-align:center;">Electrical and Computer Engineering, 2022</p>
+                  <p style="text-align:center;">kr397[at]cornell.edu</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <br>
+          <p>We worked on this project collaboratively. Initially, Krithik worked on the Speech Recognition and Motor controls module, whereas Aryaa implemented the Hand Detection module with computer vision and machine learning modules. The Stage 1 and Stage 2 Training, along with animations were implemented together. We used github to maintain the code base. As we both are currently located in Ithaca, we were able to meet in person to work together. We completed the documentation and website together as well.</p> 
         
           <h3>References</h3>
           <p>Speech Recognition</p>
